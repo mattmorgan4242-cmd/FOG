@@ -2,3 +2,4 @@
 build*/
 .clang*
 high_score.txt
+thirdparty/
