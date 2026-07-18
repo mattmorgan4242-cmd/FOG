@@ -2,7 +2,7 @@
 
 set -e
 
-executable_name=Snake
+executable_name=sth
 
 cmake -B build
 cmake --build build -j$(nproc)
