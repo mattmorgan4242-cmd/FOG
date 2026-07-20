@@ -10,6 +10,6 @@ int main() {
 InitWindow(800, 600, "sth");
 SetTargetFPS(60);
 
-CloseWindow();
+//CloseWindow();
 return 0;
 }
