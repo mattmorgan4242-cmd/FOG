@@ -7,7 +7,7 @@
 
 
 int main() {
-InitWindow(800, 600, "sth");
+InitWindow(800, 1000, "sth");
 SetTargetFPS(60);
  while (!WindowShouldClose()) {
 BeginDrawing();
