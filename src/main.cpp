@@ -29,6 +29,24 @@ void DrawGameMenu()
     StartGame();
 }
 GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, old);
+if (GuiButton({
+    (GetRenderWidth() - ButtonSize * 6) / 2.0f,
+    (GetRenderHeight() - ButtonSize) / 2.0f,
+    ButtonSize * 6,
+    ButtonSize
+}, "Ustawienia")) {
+    settings = true;
+}
+GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, ColorToInt(RED));
+    if (GuiButton({
+    (GetRenderWidth() - ButtonSize * 6) / 2.0f,
+    (GetRenderHeight() - ButtonSize) / 1.65f,
+    ButtonSize * 6,
+    ButtonSize
+}, "Wyjdź")) {
+    //CloseWindow();
+}
+GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, old);
 }
 
 
@@ -46,6 +64,6 @@ DrawGameMenu();
 EndDrawing();
 }
 
-//CloseWindow();
+CloseWindow();
 return 0;
 }
