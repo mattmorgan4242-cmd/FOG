@@ -9,6 +9,7 @@
 int score;
 int highscore;
 bool settings = false;
+bool exitGame = false;
 float ButtonSize = 64;
 
 void StartGame() {
@@ -43,8 +44,8 @@ GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, ColorToInt(RED));
     (GetRenderHeight() - ButtonSize) / 1.65f,
     ButtonSize * 6,
     ButtonSize
-}, "Wyjdź")) {
-    //CloseWindow();
+}, "Wyjdz")) {
+    exitGame = true;
 }
 GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, old);
 }
@@ -55,7 +56,8 @@ int main() {
 InitWindow(800, 1000, "sth");
 GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
 SetTargetFPS(60);
- while (!WindowShouldClose()) {
+while (!WindowShouldClose() && !exitGame)
+{
 BeginDrawing();
 ClearBackground(BLACK);
 DrawGameMenu();
