@@ -49,6 +49,15 @@ GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, ColorToInt(RED));
 }
 GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, old);
 }
+void DrawSettings()
+{
+    DrawText("USTAWIENIA", (GetScreenWidth() - MeasureText("USTAWIENIA", 40)) / 2, 100, 40, WHITE);
+
+    if (GuiButton({(GetScreenWidth() - 250) / 2.0f, 750, 250, 60}, "Powrot"))
+    {
+        settings = false;
+    }
+}
 
 
 
@@ -60,7 +69,15 @@ while (!WindowShouldClose() && !exitGame)
 {
 BeginDrawing();
 ClearBackground(BLACK);
-DrawGameMenu();
+
+    if (settings)
+    {
+        DrawSettings();
+    }
+    else
+    {
+        DrawGameMenu();
+    }
 
 
 EndDrawing();
