@@ -2,6 +2,7 @@
 #include <raylib.h>
 #include <string>
 #include <ctime>
+#include <cstdlib>
 #include <vector>
 #define RAYGUI_IMPLEMENTATION
 #include <raygui.h>
@@ -10,11 +11,13 @@ int score;
 int highscore;
 bool settings = false;
 bool exitGame = false;
+bool game = false;
 float ButtonSize = 64;
+Vector2 player = {375, 800};
+float playerSize = 50;
+float playerSpeed = 300;
 
-void StartGame() {
-    
-}
+
 
 
 void DrawGameMenu()
@@ -27,7 +30,7 @@ void DrawGameMenu()
     ButtonSize * 6,
     ButtonSize
 }, "Graj")) {
-    StartGame();
+    game = true;
 }
 GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, old);
 if (GuiButton({
@@ -59,9 +62,34 @@ void DrawSettings()
     }
 }
 
+void DrawGame() {
+ if (IsKeyDown(KEY_LEFT))
+    {
+        player.x -= playerSpeed * GetFrameTime();
+    }
+
+    if (IsKeyDown(KEY_RIGHT))
+    {
+        player.x += playerSpeed * GetFrameTime();
+    }
+
+    if (player.x < 0)
+    {
+        player.x = 0;
+    }
+
+    if (player.x + playerSize > GetScreenWidth())
+    {
+        player.x = GetScreenWidth() - playerSize;
+    }
+
+    DrawRectangle(player.x, player.y, playerSize, playerSize * 2, BLUE);
+}
+
 
 
 int main() {
+    srand(time(0));
 InitWindow(800, 1000, "sth");
 GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
 SetTargetFPS(60);
@@ -70,14 +98,18 @@ while (!WindowShouldClose() && !exitGame)
 BeginDrawing();
 ClearBackground(BLACK);
 
-    if (settings)
-    {
-        DrawSettings();
-    }
-    else
-    {
-        DrawGameMenu();
-    }
+    if (game)
+        {
+            DrawGame();
+        }
+        else if (settings)
+        {
+            DrawSettings();
+        }
+        else
+        {
+            DrawGameMenu();
+        }
 
 
 EndDrawing();
