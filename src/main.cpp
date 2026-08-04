@@ -16,6 +16,7 @@ float ButtonSize = 64;
 Vector2 player = {375, 800};
 float playerSize = 50;
 float playerSpeed = 300;
+float spawnTimer = 0;
 
 
 
@@ -83,7 +84,7 @@ void DrawGame() {
         player.x = GetScreenWidth() - playerSize;
     }
 
-    DrawRectangle(player.x, player.y, playerSize, playerSize * 2, BLUE);
+    DrawRectangle(player.x, player.y, playerSize, playerSize, BLUE);
 }
 
 
