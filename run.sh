@@ -2,7 +2,7 @@
 
 set -e
 
-executable_name=sth
+executable_name=FOG
 
 cmake -B build
 cmake --build build -j$(nproc)

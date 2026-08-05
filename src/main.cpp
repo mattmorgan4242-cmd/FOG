@@ -91,7 +91,7 @@ void DrawGame() {
 
 int main() {
     srand(time(0));
-InitWindow(800, 1000, "sth");
+InitWindow(800, 1000, "Falling Objects Game");
 GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
 SetTargetFPS(60);
 while (!WindowShouldClose() && !exitGame)
