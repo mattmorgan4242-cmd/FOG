@@ -9,6 +9,7 @@
 
 int score;
 int highscore;
+int hp = 3;
 bool settings = false;
 bool exitGame = false;
 bool game = false;
@@ -97,7 +98,8 @@ void DrawGame() {
     }
 
     DrawTexturePro(bag, {0, 0, (float)bag.width, (float)bag.height}, {player.x, player.y, playerSize, playerSize * 1.5f}, {0, 0}, 0.0f, WHITE);
-
+    DrawText(TextFormat("Score: %d", score), 20, 20, 30, WHITE);
+    DrawText(TextFormat("HP: %d", hp), GetScreenWidth() - MeasureText(TextFormat("HP: %d", hp), 30) - 20, 20, 30, WHITE);
     spawnTimer += GetFrameTime();
 
     if (spawnTimer >= 2.0f)
@@ -112,12 +114,23 @@ void DrawGame() {
         objects.push_back(object);
     }
 
-    for (auto &object : objects)
-    {
-        object.position.y += object.speed * GetFrameTime();
+for (int i = objects.size() - 1; i >= 0; i--)
+{
+    objects[i].position.y += objects[i].speed * GetFrameTime();
 
-        DrawTexturePro(apple_red, {0, 0, (float)apple_red.width, (float)apple_red.height}, {object.position.x, object.position.y, object.size, object.size}, {0, 0}, 0.0f, WHITE);
+    Rectangle playerRect = {player.x, player.y, playerSize, playerSize * 1.5f};
+    Rectangle objectRect = {objects[i].position.x, objects[i].position.y, objects[i].size, objects[i].size};
+
+    if (CheckCollisionRecs(playerRect, objectRect))
+    {
+        objects.erase(objects.begin() + i);
+        score++;
+        continue;
     }
+
+
+    DrawTexturePro(apple_red, {0, 0, (float)apple_red.width, (float)apple_red.height}, {objects[i].position.x, objects[i].position.y, objects[i].size, objects[i].size}, {0, 0}, 0.0f, WHITE);
+}
 }
 
 
