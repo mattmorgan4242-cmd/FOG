@@ -13,11 +13,12 @@ bool settings = false;
 bool exitGame = false;
 bool game = false;
 float ButtonSize = 64;
-Vector2 player = {375, 800};
-float playerSize = 50;
+Vector2 player = {375, 750};
+float playerSize = 100;
 float playerSpeed = 300;
 float spawnTimer = 0;
 Texture2D logo;
+Texture2D bag;
 
 
 
@@ -85,7 +86,7 @@ void DrawGame() {
         player.x = GetScreenWidth() - playerSize;
     }
 
-    DrawRectangle(player.x, player.y, playerSize, playerSize, BLUE);
+    DrawTexturePro(bag, {0, 0, (float)bag.width, (float)bag.height}, {player.x, player.y, playerSize, playerSize * 1.5f}, {0, 0}, 0.0f, WHITE);
 }
 
 
@@ -94,6 +95,7 @@ int main() {
     srand(time(0));
 InitWindow(800, 1000, "Falling Objects Game");
 logo = LoadTexture("textures/FOG.png");
+bag = LoadTexture("textures/bag.png");
 GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
 SetTargetFPS(60);
 while (!WindowShouldClose() && !exitGame)
