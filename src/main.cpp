@@ -17,12 +17,13 @@ Vector2 player = {375, 800};
 float playerSize = 50;
 float playerSpeed = 300;
 float spawnTimer = 0;
-
+Texture2D logo;
 
 
 
 void DrawGameMenu()
 {
+    DrawTexturePro(logo, {0, 0, (float)logo.width, (float)logo.height}, {(GetScreenWidth() - 400) / 2.0f, 100, 400, 200}, {0, 0}, 0.0f, WHITE);
     int old = GuiGetStyle(BUTTON, BASE_COLOR_NORMAL);
     GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, ColorToInt(GREEN));
     if (GuiButton({
@@ -92,12 +93,14 @@ void DrawGame() {
 int main() {
     srand(time(0));
 InitWindow(800, 1000, "Falling Objects Game");
+logo = LoadTexture("textures/FOG.png");
 GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
 SetTargetFPS(60);
 while (!WindowShouldClose() && !exitGame)
 {
 BeginDrawing();
 ClearBackground(BLACK);
+
 
     if (game)
         {
@@ -112,10 +115,10 @@ ClearBackground(BLACK);
             DrawGameMenu();
         }
 
-
 EndDrawing();
 }
 
+UnloadTexture(logo);
 CloseWindow();
 return 0;
 }
