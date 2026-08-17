@@ -9,7 +9,7 @@
 
 int score;
 int highscore;
-int hp = 3;
+int hp = 5;
 bool settings = false;
 bool exitGame = false;
 bool game = false;
@@ -17,10 +17,14 @@ float ButtonSize = 64;
 Vector2 player = {375, 750};
 float playerSize = 100;
 float playerSpeed = 500;
+bool gameOver = false;
 Texture2D logo;
 Texture2D bag;
 Texture2D apple_red;
 Texture2D apple_green;
+Texture2D bear_green;
+Texture2D bear_blue;
+Texture2D bear_red;
 
 
 struct FallingObject
@@ -127,10 +131,44 @@ for (int i = objects.size() - 1; i >= 0; i--)
         score++;
         continue;
     }
+    if (objects[i].position.y + objects[i].size >= GetScreenHeight())
+    {
+        objects.erase(objects.begin() + i);
+        hp--;
+        continue;
+    }
+    if (hp <= 0)
+    {
+        gameOver = true;
+    }
 
 
     DrawTexturePro(apple_red, {0, 0, (float)apple_red.width, (float)apple_red.height}, {objects[i].position.x, objects[i].position.y, objects[i].size, objects[i].size}, {0, 0}, 0.0f, WHITE);
 }
+}
+void DrawGameOver()
+{
+    DrawText("GAME OVER", (GetScreenWidth() - MeasureText("GAME OVER", 60)) / 2, 250, 60, RED);
+    DrawText(TextFormat("Score: %d", score), (GetScreenWidth() - MeasureText(TextFormat("Score: %d", score), 30)) / 2, 330, 30, WHITE);
+
+    if (GuiButton({250, 450, 300, 60}, "Zagraj jeszcze raz"))
+    {
+        score = 0;
+        hp = 5;
+        objects.clear();
+        player.x = 375;
+        gameOver = false;
+    }
+
+    if (GuiButton({250, 530, 300, 60}, "Powrot do menu"))
+    {
+        score = 0;
+        hp = 5;
+        objects.clear();
+        player.x = 375;
+        game = false;
+        gameOver = false;
+    }
 }
 
 
@@ -142,6 +180,9 @@ logo = LoadTexture("textures/FOG.png");
 bag = LoadTexture("textures/bag.png");
 apple_red = LoadTexture("textures/apple_red.png");
 apple_green = LoadTexture("textures/apple_green.png");
+bear_blue = LoadTexture("textures/bear_blue.png");
+bear_green = LoadTexture("textures/bear_green.png");
+bear_red = LoadTexture("textures/bear_red.png");
 GuiSetStyle(DEFAULT, TEXT_SIZE, 30);
 SetTargetFPS(60);
 while (!WindowShouldClose() && !exitGame)
@@ -150,9 +191,17 @@ BeginDrawing();
 ClearBackground(BLACK);
 
 
-    if (game)
+    if (gameOver)
+        {
+            DrawGameOver();
+        }
+        else if (game)
         {
             DrawGame();
+        }
+        else if (gameOver)
+        {
+            DrawGameOver();
         }
         else if (settings)
         {
