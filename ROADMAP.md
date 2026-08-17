@@ -3,9 +3,9 @@
 ## MVP
 
 - [x] menu główne (przyciski: "graj", "ustawienia" i "wyjdź")
-- [ ] gra
+- [x] gra
 - [ ] ustawienia skina cukierków i jabłek
-- [ ] death screen
+- [x] death screen
 - [ ] score i highscore
   
 ## v1.0.0
