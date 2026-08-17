@@ -4,6 +4,8 @@
 #include <ctime>
 #include <cstdlib>
 #include <vector>
+#include <cstdio>
+#include <fstream>
 #define RAYGUI_IMPLEMENTATION
 #include <raygui.h>
 
@@ -42,6 +44,25 @@ struct FallingObject
 std::vector<FallingObject> objects;
 float spawnTimer = 0.0f;
 
+void LoadHighscore()
+{
+    std::ifstream file("high_score.txt");
+
+    if (file.is_open())
+        file >> highscore;
+}
+
+void SaveHighscore()
+{
+    if (score > highscore)
+    {
+        highscore = score;
+
+        std::ofstream file("high_score.txt");
+        file << highscore;
+    }
+}
+
 void DrawGameMenu()
 {
     DrawTexturePro(logo, {0, 0, (float)logo.width, (float)logo.height}, {(GetScreenWidth() - 400) / 2.0f, 100, 400, 200}, {0, 0}, 0.0f, WHITE);
@@ -74,6 +95,7 @@ GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, ColorToInt(RED));
     exitGame = true;
 }
 GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, old);
+DrawText(TextFormat("Highscore: %d", highscore), (GetScreenWidth() - MeasureText(TextFormat("Highscore: %d", highscore), 30)) / 2, 325, 30, WHITE);
 }
 void DrawSettings()
 {
@@ -86,6 +108,11 @@ void DrawSettings()
     DrawText("Obiekt:", 250, 400, 30, WHITE);
     if (GuiDropdownBox({250, 450, 300, 50}, "Jablko czerwone;Jablko zielone;Zelek", &active2, editMode2)) editMode2 = !editMode2;
 
+    if (GuiButton({250, 650, 300, 60}, "Usun Highscore"))
+    {
+        remove("highscore.txt");
+        highscore = 0;
+    }
     if (GuiButton({(GetScreenWidth() - 250) / 2.0f, 750, 250, 60}, "Powrot"))
     {
         settings = false;
@@ -169,6 +196,7 @@ for (int i = objects.size() - 1; i >= 0; i--)
     }
     if (hp <= 0)
     {
+        SaveHighscore();
         gameOver = true;
     }
 
@@ -205,6 +233,7 @@ void DrawGameOver()
 
 int main() {
     srand(time(0));
+    LoadHighscore();
 InitWindow(800, 1000, "Falling Objects Game");
 logo = LoadTexture("textures/FOG.png");
 bag = LoadTexture("textures/bag.png");
