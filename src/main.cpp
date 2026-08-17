@@ -20,6 +20,8 @@ Vector2 player = {375, 750};
 float playerSize = 100;
 float playerSpeed = 500;
 bool gameOver = false;
+float spawnTimer = 0.0f;
+float spawnTime = 2.0f;
 static int active = 0;
 static int active2 = 0;
 static bool editMode1 = false;
@@ -42,7 +44,6 @@ struct FallingObject
 };
 
 std::vector<FallingObject> objects;
-float spawnTimer = 0.0f;
 
 void LoadHighscore()
 {
@@ -110,7 +111,7 @@ void DrawSettings()
 
     if (GuiButton({250, 650, 300, 60}, "Usun Highscore"))
     {
-        remove("highscore.txt");
+        remove("high_score.txt");
         highscore = 0;
     }
     if (GuiButton({(GetScreenWidth() - 250) / 2.0f, 750, 250, 60}, "Powrot"))
@@ -120,8 +121,12 @@ void DrawSettings()
 }
 
 void DrawGame() {
-    Texture2D currentObject = apple_red;
-
+if (active == 0)
+    spawnTime = 1.7f;
+else if (active == 1)
+    spawnTime = 1.2f;
+else if (active == 2)
+    spawnTime = 0.7f;
 
  if (IsKeyDown(KEY_LEFT))
     {
@@ -148,13 +153,13 @@ void DrawGame() {
     DrawText(TextFormat("HP: %d", hp), GetScreenWidth() - MeasureText(TextFormat("HP: %d", hp), 30) - 20, 20, 30, WHITE);
     spawnTimer += GetFrameTime();
 
-    if (spawnTimer >= 2.0f)
+    if (spawnTimer >= spawnTime)
     {
         spawnTimer = 0.0f;
 
         FallingObject object;
         object.position = {(float)GetRandomValue(0, GetScreenWidth() - 30), -30};
-        object.speed = 100;
+        object.speed = 150;
         object.size = 50;
 
         if (active2 == 0)
