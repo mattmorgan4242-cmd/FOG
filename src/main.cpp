@@ -18,6 +18,10 @@ Vector2 player = {375, 750};
 float playerSize = 100;
 float playerSpeed = 500;
 bool gameOver = false;
+static int active = 0;
+static int active2 = 0;
+static bool editMode1 = false;
+static bool editMode2 = false;
 Texture2D logo;
 Texture2D bag;
 Texture2D apple_red;
@@ -32,6 +36,7 @@ struct FallingObject
     Vector2 position;
     float speed;
     float size;
+    Texture2D texture;
 };
 
 std::vector<FallingObject> objects;
@@ -72,7 +77,14 @@ GuiSetStyle(BUTTON, BASE_COLOR_NORMAL, old);
 }
 void DrawSettings()
 {
+
     DrawText("USTAWIENIA", (GetScreenWidth() - MeasureText("USTAWIENIA", 40)) / 2, 100, 40, WHITE);
+
+    DrawText("Poziom trudnosci:", 250, 200, 30, WHITE);
+    if (GuiDropdownBox({250, 250, 300, 50}, "Latwy;Normalny;Trudny", &active, editMode1)) editMode1 = !editMode1;
+
+    DrawText("Obiekt:", 250, 400, 30, WHITE);
+    if (GuiDropdownBox({250, 450, 300, 50}, "Jablko czerwone;Jablko zielone;Zelek", &active2, editMode2)) editMode2 = !editMode2;
 
     if (GuiButton({(GetScreenWidth() - 250) / 2.0f, 750, 250, 60}, "Powrot"))
     {
@@ -81,6 +93,9 @@ void DrawSettings()
 }
 
 void DrawGame() {
+    Texture2D currentObject = apple_red;
+
+
  if (IsKeyDown(KEY_LEFT))
     {
         player.x -= playerSpeed * GetFrameTime();
@@ -115,6 +130,21 @@ void DrawGame() {
         object.speed = 100;
         object.size = 50;
 
+        if (active2 == 0)
+    object.texture = apple_red;
+else if (active2 == 1)
+    object.texture = apple_green;
+else
+{
+    int randomApple = GetRandomValue(0, 2);
+
+    if (randomApple == 0)
+        object.texture = bear_blue;
+    else if (randomApple == 1)
+        object.texture = bear_green;
+    else
+        object.texture = bear_red;
+}
         objects.push_back(object);
     }
 
@@ -143,7 +173,7 @@ for (int i = objects.size() - 1; i >= 0; i--)
     }
 
 
-    DrawTexturePro(apple_red, {0, 0, (float)apple_red.width, (float)apple_red.height}, {objects[i].position.x, objects[i].position.y, objects[i].size, objects[i].size}, {0, 0}, 0.0f, WHITE);
+    DrawTexturePro(objects[i].texture, {0, 0, (float)objects[i].texture.width, (float)objects[i].texture.height}, {objects[i].position.x, objects[i].position.y, objects[i].size, active2 == 2 ? objects[i].size * 1.4f : objects[i].size}, {0, 0}, 0.0f, WHITE);
 }
 }
 void DrawGameOver()
