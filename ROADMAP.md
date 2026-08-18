@@ -10,5 +10,5 @@
   
 ## v1.0.0
 
-- [ ] możliwość zmiany poziomu trudności
+- [x] możliwość zmiany poziomu trudności
 - [x] możliwość usunięcia highscore
