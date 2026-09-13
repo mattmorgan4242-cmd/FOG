@@ -6,6 +6,7 @@ Skrypt należy uruchomić w terminalu obsługującym pliki .sh, np. Git Bash lub
     1.Pobierz repozytorium
     2.Otwórz terminal w folderze projektu
     3.Wpisz komendę:
+        git submodule update --init --depth 1
         ./run.sh
 
 Gra zostanie automatycznie skompilowana i uruchomiona.
